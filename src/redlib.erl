@@ -2,13 +2,29 @@
 -compile(export_all).
 %===============================================================================================================================												
 %===============================================================================================================================												
+-spec split_list_for(List,N) -> [list()]  when
+                     List    :: list(),
+			         N       :: integer().
+%*******************************************************************************************************************************
 split_list_for(List,N)->split10(List,[],N).
 split_list_for([],Lists,N)->Lists;
-split_list_for(List,Lists,N) when erlang:length(List)  < N -> [List|Lists];
-split_list_for(List,Lists,N) when erlang:length(List) == N -> [List|Lists];
-split_list_for(List,Lists,N) when erlang:length(List)  > N -> {H,T} = lists:split(N,List),
+split_list_for(List,Lists,N) when erlang:length(List)  =< N -> [List|Lists];
+split_list_for(List,Lists,N) when erlang:length(List)  >  N -> {H,T} = lists:split(N,List),
                                                    split_list_for(T,[H|Lists],N).
 %===============================================================================================================================												
+-spec list_element(List,Elem) -> term()  when
+                   List       :: list(),
+			       Elem       :: integer().
+%*******************************************************************************************************************************
 list_element(List,Elem)->element(Elem,erlang:list_to_tuple(List)).												
 %===============================================================================================================================												
-list_element2(List,Elem)->erlang:hd(lists:sublist(List, Elem, 1).												 
+list_element2(List,Elem)->erlang:hd(lists:sublist(List, Elem, 1).												
+%===============================================================================================================================												
+-spec split_list_for(List) -> [tuple()]  when
+                     List  :: [tuple()].
+%*******************************************************************************************************************************
+sort_list_of_tuple([])           -> [];
+sort_list_of_tuple([{Data,H}|T]) -> sort_list_of_tuple([{DataX,X} ||{DataX,X} <- T,X < H]) ++ 
+                                    [{Data,H}] ++ 
+								    sort_list_of_tuple([{DataX,X} || {DataX,X} <-T ,X >= H]).
+ 
