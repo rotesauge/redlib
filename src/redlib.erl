@@ -6,7 +6,7 @@
                      List    :: list(),
 			         N       :: integer().
 %*******************************************************************************************************************************
-split_list_for(List,N)->split10(List,[],N).
+split_list_for(List,N)->split_list_for(List,[],N).
 split_list_for([],Lists,N)->Lists;
 split_list_for(List,Lists,N) when erlang:length(List)  =< N -> [List|Lists];
 split_list_for(List,Lists,N) when erlang:length(List)  >  N -> {H,T} = lists:split(N,List),
@@ -27,4 +27,17 @@ sort_list_of_tuple([])           -> [];
 sort_list_of_tuple([{Data,H}|T]) -> sort_list_of_tuple([{DataX,X} ||{DataX,X} <- T,X < H]) ++ 
                                     [{Data,H}] ++ 
 								    sort_list_of_tuple([{DataX,X} || {DataX,X} <-T ,X >= H]).
+%===============================================================================================================================												
+-spec deduplicate(List) -> list() when
+                   List       :: list().
+%*******************************************************************************************************************************
+deduplicate([])    -> [];
+deduplicate([H|T]) -> [H|deduplicate(deduplicate(H, T))].									
+deduplicate(X, XS) -> [Y || Y <- XS, Y =/= X].
+%=============================================================================================================================================================================================
+list2binary_ex(ListOfTerms) -> list_to_binary([list2binary_convert(E)||E<-ListOfTerms]).
+list2binary_convert(X) when is_atom(X) -> atom_to_list(X);
+list2binary_convert(X)            -> X.
+%===============================================================================================================================
+
  
