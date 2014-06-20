@@ -112,5 +112,6 @@ get_row([H|T],ANS)when is_list(H)->
     true  -> get_row(T,[list_to_binary(["<td>", H, "</td>"])|ANS]);
     false -> get_row(T,[list_to_binary(["<td>",list_to_html_table(H), "</td>"])|ANS])
   end;
+get_row([H|T],ANS)when is_tuple(H)->get_row([tuple_to_list(H)|T],ANS); 
 get_row([H|T],ANS)->get_row(T,[list2binary_ex(["<td>", H , "</td>"])|ANS]).
 %*****************************************************************************************************************************************************************************************
