@@ -18,3 +18,4 @@ redlib contains:
 
   data_to_html(Data) -> binary() when is_subtype(Data,term()).
 
+ absolete_append([any()]) -> list().

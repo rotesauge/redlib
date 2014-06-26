@@ -114,4 +114,13 @@ get_row([H|T],ANS)when is_list(H)->
   end;
 get_row([H|T],ANS)when is_tuple(H)->get_row([tuple_to_list(H)|T],ANS); 
 get_row([H|T],ANS)->get_row(T,[list2binary_ex(["<td>", H , "</td>"])|ANS]).
+%====================================================================================================================================================================================
+-spec absolete_append([any()]) -> list().
 %*****************************************************************************************************************************************************************************************
+absolete_append(LoL)->absolete_append(LoL,[],[]).
+absolete_append([],Acc1,[])->lists:reverse(Acc1);
+absolete_append([],Acc1,Acc2)->absolete_append(lists:append(lists:reverse(Acc2)),Acc1,[]);
+absolete_append([H|T],Acc1,Acc2) when is_list(H)-> absolete_append(T,Acc1,[H|Acc2]);
+absolete_append([H|T],Acc1,Acc2) when is_tuple(H)-> absolete_append(T,Acc1,[tuple_to_list(H)|Acc2]);
+absolete_append([H|T],Acc1,Acc2) -> absolete_append(T,[H|Acc1],Acc2).
+%====================================================================================================================================================================================
