@@ -30,6 +30,7 @@ parse(Str)->
   code:purge(tmplt),
   code:delete(tmplt),
   file:delete("tmplt.erl"),
+  file:delete("tmplt.beam"),
   Ans.
 
 generate_code(Str)->
