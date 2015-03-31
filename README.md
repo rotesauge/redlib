@@ -19,3 +19,11 @@ redlib contains:
   data_to_html(Data) -> binary() when is_subtype(Data,term()).
 
  absolete_append([any()]) -> list().
+ 
+ parser__________________________________________________________
+ 
+ parse(Str :: string()) -> term() | {error, Reason :: term()}).
+ 
+ alg_generator____________________________________________________
+ 
+ generate(list()) -> ok| {error, Reason :: term()}).  generates
