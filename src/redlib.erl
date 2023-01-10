@@ -41,11 +41,11 @@ deduplicate([H|T]) -> [H|deduplicate(deduplicate(H, T))].
 -spec deduplicate(_,[any()]) -> [any()].
 deduplicate(X, XS) -> [Y || Y <- XS, Y =/= X].
 %=============================================================================================================================================================================================
--spec deduplicate([tuple()],integer()) -> list().
+-spec deduplicate2([tuple()],integer()) -> list().
 %*****************************************************************************************************************************************************************************************
-deduplicate([],Num)    -> [];
-deduplicate([H|T],Num) -> [H|deduplicate(deduplicate(H, T,Num),Num)].
-deduplicate(X, XS,Num) -> [Y || Y <- XS, element(Num,Y) =/= element(Num,X)].
+deduplicate2([],Num)    -> [];
+deduplicate2([H|T],Num) -> [H|deduplicate(deduplicate2(H, T,Num),Num)].
+deduplicate2(X, XS,Num) -> [Y || Y <- XS, element(Num,Y) =/= element(Num,X)].
 %=============================================================================================================================================================================================
 -spec list2binary_ex([any()]) -> binary().
 %*****************************************************************************************************************************************************************************************
@@ -122,14 +122,14 @@ get_row([H|T],ANS)when is_list(H)->
 get_row([H|T],ANS)when is_tuple(H)->get_row([tuple_to_list(H)|T],ANS); 
 get_row([H|T],ANS)->get_row(T,[list2binary_ex(["<td>", H , "</td>"])|ANS]).
 %====================================================================================================================================================================================
--spec absolete_append([any()]) -> list().
+-spec flatten([any()]) -> list().
 %*****************************************************************************************************************************************************************************************
-absolete_append(LoL)->absolete_append(LoL,[],[]).
-absolete_append([],Acc1,[])->lists:reverse(Acc1);
-absolete_append([],Acc1,Acc2)->absolete_append(lists:append(lists:reverse(Acc2)),Acc1,[]);
-absolete_append([H|T],Acc1,Acc2) when is_list(H)-> absolete_append(T,Acc1,[H|Acc2]);
-absolete_append([H|T],Acc1,Acc2) when is_tuple(H)-> absolete_append(T,Acc1,[tuple_to_list(H)|Acc2]);
-absolete_append([H|T],Acc1,Acc2) -> absolete_append(T,[H|Acc1],Acc2).
+flatten(LoL)->flatten(LoL,[],[]).
+flatten([],Acc1,[])->lists:reverse(Acc1);
+flatten([],Acc1,Acc2)->flatten(lists:append(lists:reverse(Acc2)),Acc1,[]);
+flatten([H|T],Acc1,Acc2) when is_list(H)-> flatten(T,Acc1,[H|Acc2]);
+flatten([H|T],Acc1,Acc2) when is_tuple(H)-> flatten(T,Acc1,[tuple_to_list(H)|Acc2]);
+flatten([H|T],Acc1,Acc2) -> flatten(T,[H|Acc1],Acc2).
 %====================================================================================================================================================================================
 -spec drop_elements(list(),list()) -> list().
 %*****************************************************************************************************************************************************************************************
